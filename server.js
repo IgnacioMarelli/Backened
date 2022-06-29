@@ -16,7 +16,7 @@ app.get('/productoRandom', async (req, res)=>{
     const prod = await contenedor1.getRandomItem();
     res.send(prod);
 })
-const PORT =8080;
+const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, ()=>{
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 })
