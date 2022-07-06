@@ -3,7 +3,7 @@ class Contenedor{
     constructor(archivo){
         this.archivo=archivo;
     }
-    async save(objeto){
+    async save(product){
         try{
             const data = this.getAll();
             product.id = data.length + 1;
