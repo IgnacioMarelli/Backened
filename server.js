@@ -18,13 +18,13 @@ router.get('/', (req, res)=>{
     res.json(contenedor1.getAll());
 })
 router.post('/', (req, res)=>{
-    const { title, precio, thumbnail } = req.body;
-    if(title === "" || precio === "" || thumbnail === "") {
+    const { title, price, thumbnail } = req.body;
+    if(title === "" || price === "" || thumbnail === "") {
         res.json({
         error: "Alguno de los campos ha quedado sin rellenar"
         });
     } 
-    res.json(contenedor1.save({ title: title, precio: Number(precio), thumbnail: thumbnail}));
+    res.json(contenedor1.save({ title: title, price: Number(price), thumbnail: thumbnail}));
 
 })
 
