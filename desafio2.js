@@ -5,7 +5,7 @@ class Contenedor{
     }
     async save(product){
         try{
-            const data = this.getAll();
+            const data = await this.getAll();
             product.id = data.length + 1;
             data.push(product);
             fs.writeFileSync(this.archivo, JSON.stringify(data));
