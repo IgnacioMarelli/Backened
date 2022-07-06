@@ -5,19 +5,13 @@ class Contenedor{
     }
     async save(objeto){
         try{
-            const respuesta = await fs.promises.readFile(this.archivo, "utf-8");
-            if (respuesta=="") {
-                objeto.id=1;
-                const arrObjeto= [objeto];
-                await fs.promises.appendFile(this.archivo, JSON.stringify(arrObjeto));
-                return console.log(objeto.id)
-            } else {
-                const datosObj= JSON.parse(respuesta);
-                objeto.id = datosObj.length+1;
-                datosObj.push(objeto);
-                await fs.promises.writeFile(this.archivo, JSON.stringify(datosObj));
-                return console.log(objeto.id);
-            }
+            const data = this.getAll();
+            product.id = data.length + 1;
+            data.push(product);
+            fs.writeFileSync(this.archivo, JSON.stringify(data));
+            return {
+                product: product,
+            };
         }catch (error){
             console.log(`El error es: ${error}`);
         }
