@@ -14,18 +14,19 @@ app.use(express.static('public'));
 
 
 
-router.get('/', (req, res)=>{
-    res.json(contenedor1.getAll());
+router.get('/', async (req, res)=>{
+    const products = await contenedor1.getAll()
+    res.json(products);
 })
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
     const { title, price, thumbnail } = req.body;
     if(title === "" || price === "" || thumbnail === "") {
         res.json({
         error: "Alguno de los campos ha quedado sin rellenar"
         });
     } 
-    res.json(contenedor1.save({ title: title, price: Number(price), thumbnail: thumbnail}));
-
+    const product = await contenedor1.save({ title: title, price: Number(price), thumbnail: thumbnail})
+    res.json(product);
 })
 
 router.get('/:id', (req, res)=>{
@@ -37,6 +38,21 @@ router.get('/:id', (req, res)=>{
         return res.send('No existe el producto buscado')
     } 
 })
+
+router.put('/:id', async (req, res)=>{
+    const producto = req.body;
+    const { id } = req.params;
+    const prod = await contenedor1.update(id, producto);
+    res.json(prod)
+})
+
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    res.json( await contenedor1.deleteById(Number(id)));
+  })
+
+
+
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, ()=>{
     console.log(`Servidor corriendo en el puerto ${PORT}`);

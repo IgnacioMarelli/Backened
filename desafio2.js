@@ -23,14 +23,29 @@ class Contenedor{
             const datos = JSON.parse(respuesta);
             const resultado = datos.findIndex((obj)=> obj.id == id);
             if (resultado > 0) {
-                return console.log(datos[resultado])
+                return (datos[resultado])
             } else {
-                return console.log(null)
+                return (null)
             }
         }catch(error){
             console.log(`El error es: ${error}`);
         }
     }
+    async update(id, product) {
+		const data = await this.getAll();
+		if (id <= 0 || id > data.length) {
+			return {
+				error: "El producto con el id especificado no ha sido encontrado.",
+			};
+		}
+		product.id = id;
+		const previousProduct = data.splice(id - 1, 1, product);
+		fs.writeFileSync(this.archivo, JSON.stringify(data));
+		return {
+			anterior: previousProduct,
+			nuevo: product,
+		};
+	}
 
     async getAll(){
         try {
@@ -59,7 +74,7 @@ class Contenedor{
             const productosParseados = JSON.parse(respuesta);
             const prods = productosParseados.filter(prod=> prod.id!==id);
             await fs.promises.writeFile(this.archivo, JSON.stringify(prods));
-            console.log(`Has eliminado un producto. La lista de productos ahora es así: ${this.prods}`)
+            return `Has eliminado el producto con id: ${id} de la lista`
         } catch (error) {
             console.log(`El error es: ${error}`);
         }
