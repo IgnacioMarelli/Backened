@@ -1,0 +1,27 @@
+<%-include('./header')-%>
+<%if(prodsAgregados.length > 0){%>
+    <%for(prod of prodsAgregados){%>
+    <%if(prod.title === "" || prod.price === "" || prod.thumbnail === "") {%>
+        <h3>Te falto completar algun dato</h3>
+       <a href="/api/"> <button>Volver</button></a>
+    <%} %>
+    <table class="table table-dark">
+        <thead>
+            Nombre del producto
+        </thead>
+        <thead>Precio del producto</thead>
+        <thead> imagen</thead>
+        <tbody>
+          <tr class="table-active container">
+            <td style="    width: 33%;"><span><%=prod.title%></span></td>
+            <td style="    width: 33%;"><span><%=prod.price%></span></td>
+            <td ><img style="    width: 33%;" src="<%= prod.thumbnail %>" alt=""></td>
+          </tr>
+        </tbody>
+      </table>
+    <a href="/api/"> <button>Volver</button></a>
+    <%};%>
+<%} else{%>
+    <span>No agrego ningún producto</span>
+    <a href="/api/"> <button>Volver</button></a>
+    <%}%>

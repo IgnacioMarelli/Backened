@@ -1,0 +1,25 @@
+<main class="container p-3">
+  <section class="row justify-content-around">
+    {{#if productoAgregado}}
+    <table class="table table-dark">
+        <thead>
+            Nombre del producto
+        </thead>
+        <thead>Precio del producto</thead>
+        <thead> imagen</thead>
+        <tbody>
+          <tr class="table-active container">
+            <td style="    width: 33%;"><span>{{productoAgregado.title}}</span></td>
+            <td style="    width: 33%;"><span>$ {{productoAgregado.price}}</span></td>
+            <td ><img style="    width: 33%;" src="{{productoAgregado.thumbnail}}" alt=""></td>
+          </tr>
+        </tbody>
+      </table>
+    <a href="/api/"> <button>Volver</button></a>
+
+      {{else}}
+       <h3>Te falto completar algun dato</h3>
+       <a href="/api/"> <button>Volver</button></a>
+    {{/if}}
+  </section>
+</main>

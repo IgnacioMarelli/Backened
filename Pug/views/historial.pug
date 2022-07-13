@@ -1,0 +1,21 @@
+extends layout/main
+
+block content
+ main(class="container-lg p-3")
+    section(class="row justify-content-around")
+      if productoAgregado
+        table(class="table table-dark")
+          tbody
+            tr(class="table-active container")
+              td(style="width: 33%")
+                span= productoAgregado.title
+              td(style= "width: 33%")
+                span= "$"+ productoAgregado.price
+              td 
+                img(style= "width: 33%", src=productoAgregado.thumbnail  )
+                a(href="/api/")
+                 button Volver
+      else 
+       h3 Te falto completar algun dato
+       a(href="/api/") 
+       button Volver
