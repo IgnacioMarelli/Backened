@@ -68,12 +68,12 @@ class Contenedor{
         }
     }
 
-    async deleteById(id){
+     deleteById(id){
         try {
-            const respuesta = await fs.promises.readFile(this.archivo, "utf-8");
+            const respuesta =  fs.readFile(this.archivo, "utf-8");
             const productosParseados = JSON.parse(respuesta);
             const prods = productosParseados.filter(prod=> prod.id!==id);
-            await fs.promises.writeFile(this.archivo, JSON.stringify(prods));
+             fs.writeFile(this.archivo, JSON.stringify(prods));
             return `Has eliminado el producto con id: ${id} de la lista`
         } catch (error) {
             console.log(`El error es: ${error}`);

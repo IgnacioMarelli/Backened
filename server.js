@@ -29,9 +29,10 @@ router.post('/', async (req, res)=>{
     res.json(product);
 })
 
-router.get('/:id', (req, res)=>{
+router.get('/:id', async (req, res)=>{
     const idRouter = parseInt(req.params.id);
-    const resultado = productos.find(element=> element.id == idRouter)
+    const products = await contenedor1.getAll();
+    const resultado = products.find(element=> element.id == idRouter)
     if (resultado.id > 0) {
         return res.json([resultado])
     } else {
