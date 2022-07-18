@@ -18,9 +18,12 @@ router.get('/', (req, res)=>{
 })
 router.post('/productos', (req, res)=>{
     const { title, price, thumbnail } = req.body;
-    prodsAgregados.push({ title, price, thumbnail });
- //    const product = await contenedor1.save({ title: title, price: Number(price), thumbnail: thumbnail})
-     res.render('../views/historial', {prodsAgregados});
+    if (title === "" || price === "" || thumbnail === "") {
+        res.render("../views/faltanDatos");
+    }else{
+        prodsAgregados.push({ title, price, thumbnail });
+        res.render('../views/historial', {prodsAgregados});
+    }
 })
 
 //router.get('/:id', (req, res)=>{

@@ -20,8 +20,12 @@ router.get('/', (req, res)=>{
 router.post('/productos', (req, res)=>{
     const { title, price, thumbnail } = req.body;
     const productoAgregado= { title, price, thumbnail };
-    prodsAgregados.push(productoAgregado);
-    res.render('../views/historial', {productoAgregado});
+    if (title === "" || price === "" || thumbnail === "") {
+        res.render("../views/faltanDatos");
+    }else{
+        prodsAgregados.push(productoAgregado);
+        res.render('../views/historial', {prodsAgregados});
+    }
 })
 
 

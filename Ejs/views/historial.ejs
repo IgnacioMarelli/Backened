@@ -1,10 +1,6 @@
 <%-include('./header')-%>
 <%if(prodsAgregados.length > 0){%>
     <%for(prod of prodsAgregados){%>
-    <%if(prod.title === "" || prod.price === "" || prod.thumbnail === "") {%>
-        <h3>Te falto completar algun dato</h3>
-       <a href="/api/"> <button>Volver</button></a>
-    <%} %>
     <table class="table table-dark">
         <thead>
             Nombre del producto
@@ -19,9 +15,10 @@
           </tr>
         </tbody>
       </table>
-    <a href="/api/"> <button>Volver</button></a>
+    
     <%};%>
 <%} else{%>
     <span>No agrego ningún producto</span>
-    <a href="/api/"> <button>Volver</button></a>
+    <a href="/api/"> <button>Ver productos cargados</button></a>
     <%}%>
+    <a href="/api/"> <button>Volver al formulario</button></a>
