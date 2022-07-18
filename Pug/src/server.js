@@ -21,7 +21,7 @@ router.post('/productos', (req, res)=>{
     const { title, price, thumbnail } = req.body;
     const productoAgregado= { title, price, thumbnail };
     if (title === "" || price === "" || thumbnail === "") {
-        res.render("../views/faltanDatos");
+        res.render("../views/faltanDatos", {prodsAgregados});
     }else{
         prodsAgregados.push(productoAgregado);
         res.render('../views/historial', {prodsAgregados});

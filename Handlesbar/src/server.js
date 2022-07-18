@@ -38,6 +38,10 @@ router.post('/productos', (req, res)=>{
      res.render('../views/historial', {productoAgregado});
     }
 })
+
+router.get('/productos', (req,res)=>{
+    res.render('../views/productos', {prodsAgregados})
+})
 const PORT = process.env.PORT || 8080;
 const server = app.listen(PORT, ()=>{
     console.log(`Servidor corriendo en el puerto ${PORT}`);

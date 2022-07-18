@@ -16,10 +16,13 @@ app.set("views", "views");
 router.get('/', (req, res)=>{
     res.render('../views/formulario');
 })
+router.get('/productos', (req,res)=>{
+    res.render('../views/productos', {prodsAgregados})
+})
 router.post('/productos', (req, res)=>{
     const { title, price, thumbnail } = req.body;
     if (title === "" || price === "" || thumbnail === "") {
-        res.render("../views/faltanDatos");
+        res.render("../views/faltanDatos", {prodsAgregados});
     }else{
         prodsAgregados.push({ title, price, thumbnail });
         res.render('../views/historial', {prodsAgregados});
