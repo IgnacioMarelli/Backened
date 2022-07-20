@@ -1,8 +1,8 @@
-const express = require ('express');
+const express = require('express');
 const app = express();
 const { Router }= express;
 const router = Router();
-const { Contenedor }= require ('../../Handlesbar/desafio2');
+const { Contenedor }= require ('../Handlesbar/desafio2');
 const contenedor1 = new Contenedor("productos.json");
 app.use('/api', router);
 router.use(express.json());
@@ -10,6 +10,24 @@ router.use(express.urlencoded({extended:true}));
 let prodsAgregados = [];
 app.set("view engine", ".ejs");
 app.set("views", "views");
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
+
+let messages = [
+];
+
+app.use(express.static('public'));
+
+io.on('connection', function(socket) {
+    console.log('Nuevo usuario conectado');
+    socket.emit('messages', messages);
+
+    socket.on('new-message', (data)=>{
+        messages.push(data);
+        io.sockets.emit('messages', messages);
+    });
+});
+
 
 
 router.get('/', (req, res)=>{
@@ -27,7 +45,6 @@ router.post('/productos', (req, res)=>{
         res.render('../views/historial', {prodsAgregados});
     }
 })
-
 //router.get('/:id', (req, res)=>{
 //    const idRouter = parseInt(req.params.id);
 //    const products = await contenedor1.getAll()
@@ -52,10 +69,9 @@ router.post('/productos', (req, res)=>{
  // })
 
 
-
-const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, ()=>{
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-})
-
-server.on("error", error=> console.log(error));
+ const PORT = process.env.PORT || 8080;
+ const connectedServer = server.listen(PORT, ()=>{
+     console.log(`Servidor escuchando en el puerto ${PORT}`)
+ })
+ connectedServer.on('error', error=> console.log(`Se detecto el error: ${error}`));
+ 

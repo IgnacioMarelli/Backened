@@ -1,0 +1,55 @@
+<%-include('./header')-%>
+    <body>
+            <h1>Ingrese Producto</h1>
+        <br>
+
+        <form action="/" class="container" onsubmit="return addProduct()" method="post">
+            <div class="form-group">
+                <label for="title"><b>Nombre</b></label>
+                <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+                <label for="price"><b>Precio</b></label>
+                <input type="number" class="form-control" name="price">
+            </div>
+            <div class="form-group">
+                <label for="thumbnail"><b>Url de Imagen</b></label>
+                <input type="text" class="form-control" name="thumbnail">
+            </div>
+            <button class="btn btn-succes mt-3 mb-5" style="background-color: blue;">Enviar</button>
+        </form>
+        <br>
+        <div class="productos"><%if(prodsAgregados.length > 0){%>
+            <table class="table table-dark">
+                <thead>
+                    Nombre del producto
+                </thead>
+                <thead>Precio del producto</thead>
+                <thead> imagen</thead>
+                <tbody>
+                <%for(prod of prodsAgregados){%>
+                <tr class="table-active container">
+                    <td style="    width: 33%;"><span><%=prod.title%></span></td>
+                    <td style="    width: 33%;"><span>$<%=prod.price%></span></td>
+                    <td ><img style="    width: 33%;" src="<%= prod.thumbnail %>" alt=""></td>
+                </tr>
+                <%};%>
+                </tbody>
+            </table>
+        <%} else{%>
+            <span>No agrego ningún producto</span>
+            <%}%>
+        </div>
+        <br>
+        <h1>Chat</h1>
+        <div id="messages"></div>
+        <form onsubmit="return addMessage()" autocomplete="off">
+            <input type="text" id="username" placeholder="Nombre">
+            <input type="text" id="texto">
+            <input type="submit">
+        </form>
+
+
+        <script src="../public/src/main.js"></script>
+    </body>
+</html>

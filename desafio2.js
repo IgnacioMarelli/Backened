@@ -3,18 +3,20 @@ class Contenedor{
     constructor(archivo){
         this.archivo=archivo;
     }
-    async save(product){
-        try{
-            const data = await this.getAll();
+    
+    getAll(){
+        const respuesta = fs.readFileSync(this.archivo, "utf-8", (err, data) => { if (err) throw err;});
+        const productos = JSON.parse(respuesta);
+        return  productos
+    }
+    save(product){
+           const data = this.getAll();
             product.id = data.length + 1;
             data.push(product);
             fs.writeFileSync(this.archivo, JSON.stringify(data));
             return {
                 product: product,
             };
-        }catch (error){
-            console.log(`El error es: ${error}`);
-        }
     }
 
     async getById(id){
@@ -47,15 +49,6 @@ class Contenedor{
 		};
 	}
 
-    async getAll(){
-        try {
-            const respuesta = await fs.promises.readFile(this.archivo, "utf-8");
-            const productos = JSON.parse(respuesta);
-            return  productos
-        } catch (error) {
-            console.log(`El error es: ${error}`);
-        }
-    }
     async getRandomItem(){
         try {
             const respuesta = await fs.promises.readFile(this.archivo, "utf-8");
