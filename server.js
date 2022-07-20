@@ -1,24 +1,23 @@
 const express = require('express');
 const app = express();
-const { Router }= express;
-const router = Router();
+//const { Router }= express;
+//const router = Router();
 const { Contenedor }= require ('./desafio2');
 const contenedor1 = new Contenedor("productos.json");
-app.use('/', router);
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
+//app.use('/', router);
+//router.use(express.json());
+//router.use(express.urlencoded({extended:true}));
 app.set("view engine", ".ejs");
 app.set("views", "views");
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 let messages = [
 ];
-
+let prodsAgregados = contenedor1.getAll();
 app.use(express.static('public'));
 
 io.on('connection', function(socket) {
-    let prodsAgregados = contenedor1.getAll();
     console.log('Nuevo usuario conectado');
     socket.emit('messages', messages);
     socket.emit('products', prodsAgregados);
@@ -26,29 +25,30 @@ io.on('connection', function(socket) {
     socket.on('new-message', (data)=>{
         messages.push(data);
         io.sockets.emit('messages', messages); 
-        prodsAgregados.push(data);       
+    });
+    socket.on('new-product', (prod)=>{
+        contenedor1.save(prod);
         io.sockets.emit('products', prodsAgregados);
     });
 });
 
 
 
-router.get('/', (req, res)=>{
-    let prodsAgregados = contenedor1.getAll();
+/*router.get('/', (req, res)=>{
 
     res.render('../views/formulario', {prodsAgregados});
 })
 router.post('/', (req, res)=>{
-    let prodsAgregados = contenedor1.getAll();
 
     const { title, price, thumbnail } = req.body;
     if (title === "" || price === "" || thumbnail === "") {
         res.render("../views/faltanDatos", {prodsAgregados});
     }else{
         contenedor1.save({ title, price, thumbnail });
+        let prodsAgregados = contenedor1.getAll();
         res.render('../views/formulario', {prodsAgregados});
     }
-})
+})*/
 //router.get('/:id', (req, res)=>{
 //    const idRouter = parseInt(req.params.id);
 //    const products = await contenedor1.getAll()
@@ -74,8 +74,7 @@ router.post('/', (req, res)=>{
 
 
  const PORT = process.env.PORT || 8080;
- const connectedServer = server.listen(PORT, ()=>{
-     console.log(`Servidor escuchando en el puerto ${PORT}`)
- })
- connectedServer.on('error', error=> console.log(`Se detecto el error: ${error}`));
- 
+ const srv = server.listen(PORT, () => { 
+    console.log(`Servidor Http con Websockets escuchando en el puerto ${srv.address().port}`);
+})
+srv.on('error', error => console.log(`Error en servidor ${error}`))

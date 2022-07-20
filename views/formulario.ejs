@@ -3,7 +3,7 @@
             <h1>Ingrese Producto</h1>
         <br>
 
-        <form action="/" class="container" onsubmit="return addProduct()" method="post">
+        <form class="container" onsubmit="return addProduct()">
             <div class="form-group">
                 <label for="title"><b>Nombre</b></label>
                 <input type="text" class="form-control" name="title">
@@ -16,10 +16,10 @@
                 <label for="thumbnail"><b>Url de Imagen</b></label>
                 <input type="text" class="form-control" name="thumbnail">
             </div>
-            <button class="btn btn-succes mt-3 mb-5" style="background-color: blue;">Enviar</button>
+            <input type="submit">
         </form>
         <br>
-        <div class="productos"><%if(prodsAgregados.length > 0){%>
+        <div class="productos container"><%if(prodsAgregados.length > 0){%>
             <table class="table table-dark">
                 <thead>
                     Nombre del producto
