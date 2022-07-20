@@ -1,0 +1,20 @@
+extends layout/main
+
+block content
+ main(class="container-lg p-3")
+    section(class="row justify-content-around")
+      if prodsAgregados.length > 0
+        for prod of prodsAgregados
+          table(class="table table-dark")
+            tbody
+              tr(class="table-active container")
+                td(style="width: 33%")
+                  span= prod.title
+                td(style= "width: 33%")
+                  span= "$"+ prod.price
+                td 
+                  img(style= "width: 33%", src=prod.thumbnail  )
+      else 
+       h3 No agrego ningun producto
+    a(href="/api/") 
+      button Volver

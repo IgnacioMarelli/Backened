@@ -1,0 +1,21 @@
+extends layout/main
+block content
+    h2(style="text-align: -webkit-center;") Faltan completar alguno de los campos
+        a(href="/api")  
+            button Volver al formulario
+        h3(style="text-align: -webkit-center;") Productos ya agregados 
+            if prodsAgregados.length > 0
+                for prod of prodsAgregados
+                    table(class=" container table table-dark")
+                        tbody
+                            tr(class="table-active container")
+                                td(style="width: 33%")
+                                    span= prod.title
+                                td(style= "width: 33%")
+                                    span= "$"+ prod.price
+                                td 
+                                    img(style= "width: 33%", src=prod.thumbnail  )
+            else 
+                h3 No agrego ningun producto
+                    a(href="/api/") 
+                        button Volver
