@@ -2,7 +2,11 @@
 <body>
     
 <h1>Faltan completar alguno de los campos</h1>
+<<<<<<< HEAD:views/faltanDatos.ejs
 <a href="/"> <button>Volver al formulario</button></a>
+=======
+<a href="/api/"> <button>Volver al formulario</button></a>
+>>>>>>> 522e49eca25b8e72e613a3849e74dc52d1b2170e:Ejs/views/faltanDatos.ejs
     <h2>Productos cargados</h2>
     <%if(prodsAgregados.length > 0){%>
         <table class="table table-dark">
@@ -12,10 +16,22 @@
             <thead>Precio del producto</thead>
             <thead> imagen</thead>
             <tbody>
+<<<<<<< HEAD:views/faltanDatos.ejs
             <%for(prod of prodsAgregados){%>
             <tr class="table-active container">
                 <td style="    width: 33%;"><span><%=prod.title%></span></td>
                 <td style="    width: 33%;"><span>$<%=prod.price%></span></td>
+=======
+            <tr class="table-active container">
+                <td style="    width: 33%;"></td>
+                <td style="    width: 33%;"></td>
+                <td ></td>
+            </tr>
+            <%for(prod of prodsAgregados){%>
+            <tr class="table-active container">
+                <td style="    width: 33%;"><span><%=prod.title%></span></td>
+                <td style="    width: 33%;"><span><%=prod.price%></span></td>
+>>>>>>> 522e49eca25b8e72e613a3849e74dc52d1b2170e:Ejs/views/faltanDatos.ejs
                 <td ><img style="    width: 33%;" src="<%= prod.thumbnail %>" alt=""></td>
             </tr>
             <%};%>
@@ -25,6 +41,10 @@
     <%} else{%>
         <span>No agrego ningún producto</span>
         <%}%>
+<<<<<<< HEAD:views/faltanDatos.ejs
     <a href="/"> <button>Volver al formulario</button></a>
+=======
+    <a href="/api/"> <button>Volver al formulario</button></a>
+>>>>>>> 522e49eca25b8e72e613a3849e74dc52d1b2170e:Ejs/views/faltanDatos.ejs
 </body>
 </html>
