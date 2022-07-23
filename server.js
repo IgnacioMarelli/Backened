@@ -1,15 +1,16 @@
 const express = require('express');
 const app = express();
-//const { Router }= express;
-//const router = Router();
-const { Contenedor }= require ('./desafio2');
+const { Router }= express;
+const router = Router();
+const { Contenedor }= require ('./clases');
 const contenedor1 = new Contenedor("productos.json");
-//app.use('/', router);
-//router.use(express.json());
-//router.use(express.urlencoded({extended:true}));
-app.set("view engine", ".ejs");
+app.use('/api', router);
+router.use(express.json());
+router.use(express.urlencoded({extended:true}));
+/*app.set("view engine", ".ejs");
 app.set("views", "views");
 const server = require('http').Server(app);
+
 const io = require('socket.io')(server);
 
 let messages = [
@@ -30,11 +31,17 @@ io.on('connection', function(socket) {
         contenedor1.save(prod);
         io.sockets.emit('products', prodsAgregados);
     });
-});
+});*/
 
+const validarAdmin = (req, res, next)=>{
+    if(req.headers.admin){
+        next()
+    }else{
+        res.status(401).send('No autorizado');
+    }
+}
 
-
-/*router.get('/', (req, res)=>{
+router.get('/productos', (req, res)=>{
 
     res.render('../views/formulario', {prodsAgregados});
 })
@@ -48,7 +55,7 @@ router.post('/', (req, res)=>{
         let prodsAgregados = contenedor1.getAll();
         res.render('../views/formulario', {prodsAgregados});
     }
-})*/
+})
 //router.get('/:id', (req, res)=>{
 //    const idRouter = parseInt(req.params.id);
 //    const products = await contenedor1.getAll()
