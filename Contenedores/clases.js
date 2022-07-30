@@ -1,4 +1,3 @@
-const e = require('express');
 const fs = require('fs');
 class Contenedor{
     constructor(archivo){
@@ -56,7 +55,7 @@ class Contenedor{
     deleteById(id){
         const respuesta =  fs.readFileSync(this.archivo, "utf-8");
         const productosParseados = JSON.parse(respuesta);
-        const prods = productosParseados.filter(prod=> prod.id!==id);
+        const prods = productosParseados.filter(prod=> prod.id!== Number(id));
         fs.writeFileSync(this.archivo, JSON.stringify(prods));
         return `Has eliminado el producto con id: ${id} de la lista`
     }

@@ -1,13 +1,28 @@
 const express = require('express');
 const app = express();
-const { Router }= express;
-const router = Router();
-const { Contenedor }= require ('./clases');
-const contenedor1 = new Contenedor("productos.json");
-app.use('/productos', router);
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
+const {router} = require('./Routes/router');
+const {routerCart} = require('./Routes/routerCart')
+app.use('/api/productos', router);
+app.use('/api/carrito', routerCart);
 app.use(express.static('public'));
+
+function error404(req, res, next) {
+	console.log(req.url, req.method);
+	const message = {
+		error: 404,
+		descripcion: `ruta ${req.url} y metodo ${req.method} no estan implementados`,
+	};
+	if (req.url !== "/" || (req.url === "/" && req.method !== "GET")) {
+		res.status(404).json(message);
+	}
+	next();
+}
+
+app.use(error404);
+/*
+const { ContenedorSql } = require('./Contenedores/sql')
+const {optionsMDB} = require('./options/MariaDB')
+const sql = new ContenedorSql(optionsMDB)
 
 const validarAdmin = (req, res, next)=>{
     if(req.headers.admin){
@@ -20,10 +35,10 @@ const validarAdmin = (req, res, next)=>{
 router.get('/', (req, res)=>{
     const { id } = req.query;
     if (id != undefined) {
-      const response = contenedor1.getById(Number(id));
+      const response = sql.getById(Number(id));
       res.send( response );
     } else {
-      const response = contenedor1.getAll();
+      const response = sql.getAll();
       res.send(response );
     }
 })
@@ -33,29 +48,35 @@ router.post('/',validarAdmin, (req, res)=>{
         if (title === "" || price === "" || thumbnail === ""|| description ===""|| codigo === "" || stock ==="") {
             res.send("Falta completar alguno de los datos");
         }else{
-            const dt = new Date();
-            const date = dt.toLocaleString();
-            contenedor1.save({ title, price, thumbnail, date, description, codigo, stock });
-            const response = contenedor1.getAll();
-            res.send(response );
+            sql.crearTabla().then(()=>{
+
+                const dt = new Date();
+                const date = dt.toLocaleString();
+                const xd = { title, price, thumbnail, date, description, codigo, stock };
+                return sql.save(xd)
+            }).then(()=>{
+               return res.send(sql.getAll());
+            }).catch((err)=>{
+                console.log(err);
+            } ) 
         }
     }else{
         res.send('No ingreso alguna de las características del objeto')
     }
 })
 
-router.put('/:id', validarAdmin, (req, res)=>{
-    const producto = req.body;
+router.put('/productos/:id', validarAdmin, (req, res)=>{
+    const productoTitle = req.body;
     const { id } = req.params;
-    const prod = contenedor1.update(id, producto);
+    const prod = sql.update(id, productoTitle);
     res.json(prod)
 })
 
-router.delete("/:id", (req, res) => {
+router.delete("/productos/:id", (req, res) => {
     const { id } = req.params;
-    res.json( contenedor1.deleteById(id));
+    res.json( sql.deleteById(id));
 })
-
+*/
 
  const PORT = process.env.PORT || 8080;
  const srv = app.listen(PORT, () => { 
